@@ -8,6 +8,8 @@ import Products from "@/pages/products/index";
 import ProductDetail from "@/pages/products/product-detail";
 import Checkout from "@/pages/checkout/index";
 import OrderConfirmation from "@/pages/checkout/confirmation";
+import About from "@/pages/about";
+import Contact from "@/pages/contact";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -27,6 +29,8 @@ function Router() {
       <Route path="/products/:id" component={ProductDetail} />
       <Route path="/checkout" component={Checkout} />
       <Route path="/order-confirmation" component={OrderConfirmation} />
+      <Route path="/about" component={About} />
+      <Route path="/contact" component={Contact} />
       <Route component={NotFound} />
     </Switch>
   );

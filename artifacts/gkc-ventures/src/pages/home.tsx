@@ -2,7 +2,7 @@ import { useGetFeaturedProducts, useGetProductStats } from "@workspace/api-clien
 import { Link } from "wouter";
 import { ProductCard } from "@/components/shared/product-card";
 import { Layout } from "@/components/layout";
-import { ArrowRight, ChevronRight, HardHat, ShieldCheck, Factory } from "lucide-react";
+import { ArrowRight, ChevronRight, ShieldCheck, Gauge, Award, Globe } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export default function Home() {
@@ -11,86 +11,96 @@ export default function Home() {
 
   return (
     <Layout>
-      {/* Hero Section */}
-      <section className="relative bg-secondary text-secondary-foreground overflow-hidden border-b border-border">
-        {/* Background visual noise/texture via CSS or just raw color */}
-        <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white to-transparent pointer-events-none" />
+      {/* Hero Section - Modern Premium Style */}
+      <section className="relative min-h-[90vh] flex items-center bg-secondary text-secondary-foreground overflow-hidden">
+        {/* Background Visuals */}
+        <div className="absolute inset-0 z-0">
+          <div className="absolute inset-0 bg-gradient-to-r from-secondary via-secondary/95 to-secondary/40 z-10" />
+          <img 
+            src="https://images.unsplash.com/photo-1590496793929-36417d3117de?w=1600&q=80" 
+            alt="Industrial Background" 
+            className="w-full h-full object-cover opacity-40 grayscale"
+          />
+          {/* Animated Accents */}
+          <div className="absolute top-1/4 -right-20 w-96 h-96 bg-primary/10 rounded-full blur-[120px] animate-pulse" />
+          <div className="absolute bottom-1/4 -left-20 w-96 h-96 bg-primary/5 rounded-full blur-[100px]" />
+        </div>
         
-        <div className="container mx-auto px-4 md:px-8 max-w-7xl py-24 md:py-32 relative z-10">
-          <div className="max-w-4xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-primary/20 border border-primary text-primary text-xs font-bold uppercase tracking-widest mb-8">
-              <span className="w-2 h-2 bg-primary animate-pulse" />
-              Heavy Equipment Division
+        <div className="container mx-auto px-4 md:px-8 max-w-7xl relative z-20 py-20">
+          <div className="max-w-3xl">
+            <div className="inline-flex items-center gap-3 px-4 py-2 bg-white/5 border border-white/10 text-primary text-[10px] font-bold uppercase tracking-[0.3em] mb-10 rounded-full">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+              </span>
+              Industrial Power Solutions
             </div>
             
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-display leading-[0.9] tracking-tighter mb-8 text-white uppercase">
-              Industrial <br/>
-              <span className="text-primary">Power.</span><br/>
-              Absolute <br/>
-              <span className="text-primary">Dominance.</span>
+            <h1 className="text-6xl md:text-8xl lg:text-9xl font-display leading-[0.85] tracking-tighter mb-10 text-white uppercase italic">
+              Built for <br/>
+              <span className="text-primary not-italic">Scale.</span><br/>
+              Driven by <br/>
+              <span className="text-primary not-italic">Power.</span>
             </h1>
             
-            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl leading-relaxed mb-12 border-l-4 border-primary pl-6">
-              Nigeria's trusted force for heavy machinery. We supply Caterpillar mining trucks, FAW cargo transport, and professional borehole drilling equipment. Built for scale. Built to last.
+            <p className="text-lg md:text-xl text-muted-foreground max-w-xl leading-relaxed mb-12 border-l-2 border-primary/30 pl-8">
+              Nigeria's premier gateway to world-class heavy machinery. From deep-well drilling to large-scale mining operations, we deliver the force that builds nations.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-6">
-              <Link href="/products" className="inline-flex items-center justify-center bg-primary text-primary-foreground px-8 py-5 font-bold uppercase tracking-wider hover:bg-white hover:text-black transition-colors text-lg">
-                Explore Inventory <ArrowRight className="ml-3" size={20} />
+              <Link href="/products" className="group inline-flex items-center justify-center bg-primary text-primary-foreground px-10 py-5 font-bold uppercase tracking-widest hover:bg-white hover:text-black transition-all duration-500 text-sm shadow-2xl shadow-primary/20">
+                Explore Inventory <ArrowRight className="ml-3 group-hover:translate-x-2 transition-transform" size={18} />
+              </Link>
+              <Link href="/about" className="inline-flex items-center justify-center border border-white/20 text-white px-10 py-5 font-bold uppercase tracking-widest hover:bg-white/5 transition-all duration-500 text-sm">
+                Our Profile
               </Link>
             </div>
           </div>
         </div>
 
-        {/* Value Props Bar */}
-        <div className="border-t border-border/20 bg-background/5 backdrop-blur-sm">
-          <div className="container mx-auto px-4 md:px-8 max-w-7xl py-8">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-sm font-bold uppercase tracking-wider text-muted-foreground">
-              <div className="flex items-center gap-4">
-                <HardHat className="text-primary w-8 h-8" />
-                <span>Heavy Duty Certified</span>
-              </div>
-              <div className="flex items-center gap-4">
-                <ShieldCheck className="text-primary w-8 h-8" />
-                <span>Verified Documentation</span>
-              </div>
-              <div className="flex items-center gap-4">
-                <Factory className="text-primary w-8 h-8" />
-                <span>Industrial Scale Capacity</span>
-              </div>
+        {/* Floating Quick Stats */}
+        <div className="absolute bottom-0 right-0 hidden xl:block w-1/3 border-t border-l border-white/10 bg-white/5 backdrop-blur-xl p-12 z-30">
+          <div className="grid grid-cols-2 gap-10">
+            <div className="space-y-2">
+              <span className="text-4xl font-display text-white">100%</span>
+              <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold">Certified Quality</p>
+            </div>
+            <div className="space-y-2">
+              <span className="text-4xl font-display text-white">24/7</span>
+              <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold">Field Support</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section className="py-20 border-b border-border bg-background">
+      {/* Modern Stats Bar */}
+      <section className="py-12 bg-white border-b border-border">
         <div className="container mx-auto px-4 md:px-8 max-w-7xl">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-12 divide-x-0 lg:divide-x divide-border">
             {statsLoading ? (
               Array(4).fill(0).map((_, i) => (
-                <div key={i} className="flex flex-col gap-2">
-                  <Skeleton className="h-16 w-24 rounded-none" />
-                  <Skeleton className="h-4 w-32 rounded-none" />
+                <div key={i} className="px-6 space-y-2">
+                  <Skeleton className="h-10 w-20" />
+                  <Skeleton className="h-3 w-32" />
                 </div>
               ))
             ) : stats ? (
               <>
-                <div className="flex flex-col gap-2">
-                  <span className="text-5xl md:text-6xl font-display text-primary">{stats.totalProducts}</span>
-                  <span className="text-sm font-bold uppercase tracking-widest text-muted-foreground">Total Units in Stock</span>
+                <div className="lg:px-10 flex flex-col justify-center">
+                  <span className="text-4xl md:text-5xl font-display text-primary leading-none mb-2">{stats.totalProducts}</span>
+                  <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground">Units in Stock</span>
                 </div>
-                <div className="flex flex-col gap-2">
-                  <span className="text-5xl md:text-6xl font-display text-foreground">{stats.byCategory.trucks || 0}</span>
-                  <span className="text-sm font-bold uppercase tracking-widest text-muted-foreground">Heavy Trucks</span>
+                <div className="lg:px-10 flex flex-col justify-center">
+                  <span className="text-4xl md:text-5xl font-display text-secondary leading-none mb-2">{stats.byCategory.trucks || 0}</span>
+                  <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground">Heavy Trucks</span>
                 </div>
-                <div className="flex flex-col gap-2">
-                  <span className="text-5xl md:text-6xl font-display text-foreground">{stats.byCategory["mining-trucks"] || 0}</span>
-                  <span className="text-sm font-bold uppercase tracking-widest text-muted-foreground">Mining Equipment</span>
+                <div className="lg:px-10 flex flex-col justify-center">
+                  <span className="text-4xl md:text-5xl font-display text-secondary leading-none mb-2">{stats.byCategory["mining-trucks"] || 0}</span>
+                  <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground">Mining Units</span>
                 </div>
-                <div className="flex flex-col gap-2">
-                  <span className="text-5xl md:text-6xl font-display text-foreground">{stats.byCategory["drilling-motors"] || 0}</span>
-                  <span className="text-sm font-bold uppercase tracking-widest text-muted-foreground">Drilling Motors</span>
+                <div className="lg:px-10 flex flex-col justify-center">
+                  <span className="text-4xl md:text-5xl font-display text-secondary leading-none mb-2">{stats.byCategory["drilling-motors"] || 0}</span>
+                  <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground">Drilling Systems</span>
                 </div>
               </>
             ) : null}
@@ -98,94 +108,130 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Categories */}
-      <section className="py-24 bg-card">
+      {/* Why Garkuwan Section */}
+      <section className="py-32 bg-background overflow-hidden">
         <div className="container mx-auto px-4 md:px-8 max-w-7xl">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
-            <div>
-              <h2 className="text-4xl md:text-5xl font-display uppercase tracking-tighter mb-4">Equipment Categories</h2>
-              <p className="text-muted-foreground max-w-xl">Filter our extensive inventory by industrial category.</p>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+            <div className="relative">
+              <div className="absolute -top-10 -left-10 w-40 h-40 bg-primary/5 rounded-full blur-3xl" />
+              <h2 className="text-4xl md:text-6xl font-display uppercase tracking-tighter leading-tight mb-8">
+                The Trusted <br/>
+                <span className="text-primary">Industrial Partner</span> <br/>
+                in West Africa.
+              </h2>
+              <p className="text-muted-foreground text-lg mb-12 leading-relaxed">
+                Garkuwan Kanam & Co Ventures isn't just a supplier. We are an industrial force providing verified, heavy-duty machinery for the most demanding environments on the continent.
+              </p>
+              
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                <div className="flex gap-5">
+                  <div className="w-12 h-12 bg-secondary flex items-center justify-center shrink-0">
+                    <ShieldCheck className="text-primary" size={24} />
+                  </div>
+                  <div>
+                    <h4 className="font-bold uppercase tracking-wider text-sm mb-2">Verified Stock</h4>
+                    <p className="text-xs text-muted-foreground leading-relaxed">Every unit undergoes a 150-point industrial inspection before listing.</p>
+                  </div>
+                </div>
+                <div className="flex gap-5">
+                  <div className="w-12 h-12 bg-secondary flex items-center justify-center shrink-0">
+                    <Gauge className="text-primary" size={24} />
+                  </div>
+                  <div>
+                    <h4 className="font-bold uppercase tracking-wider text-sm mb-2">High Efficiency</h4>
+                    <p className="text-xs text-muted-foreground leading-relaxed">Optimized machinery designed for maximum uptime and output.</p>
+                  </div>
+                </div>
+                <div className="flex gap-5">
+                  <div className="w-12 h-12 bg-secondary flex items-center justify-center shrink-0">
+                    <Award className="text-primary" size={24} />
+                  </div>
+                  <div>
+                    <h4 className="font-bold uppercase tracking-wider text-sm mb-2">Certified Brands</h4>
+                    <p className="text-xs text-muted-foreground leading-relaxed">Direct partnerships with Caterpillar, FAW, and Mercedes-Benz.</p>
+                  </div>
+                </div>
+                <div className="flex gap-5">
+                  <div className="w-12 h-12 bg-secondary flex items-center justify-center shrink-0">
+                    <Globe className="text-primary" size={24} />
+                  </div>
+                  <div>
+                    <h4 className="font-bold uppercase tracking-wider text-sm mb-2">Regional Reach</h4>
+                    <p className="text-xs text-muted-foreground leading-relaxed">Full logistics support across all 36 states in Nigeria and beyond.</p>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <Link href="/products?category=trucks" className="group block relative aspect-[4/3] bg-muted overflow-hidden border border-border">
-              <img
-                src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80"
-                alt="Heavy Trucks"
-                className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-black/60 group-hover:bg-black/40 transition-colors duration-300 z-10" />
-              <div className="absolute inset-0 flex flex-col justify-end p-8 z-20">
-                <h3 className="text-3xl font-display text-white uppercase tracking-tighter mb-2">Trucks</h3>
-                <div className="flex items-center text-primary font-bold uppercase tracking-wider text-sm">
-                  View Category <ChevronRight size={16} className="ml-1 transition-transform group-hover:translate-x-2" />
-                </div>
+            
+            <div className="relative group">
+              <div className="absolute -inset-4 bg-primary/10 -rotate-2 group-hover:rotate-0 transition-transform duration-700" />
+              <div className="relative aspect-[4/5] overflow-hidden border border-border">
+                <img 
+                  src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1000&q=80" 
+                  alt="Industrial Power" 
+                  className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 scale-110 group-hover:scale-100"
+                />
               </div>
-            </Link>
-            <Link href="/products?category=mining-trucks" className="group block relative aspect-[4/3] bg-muted overflow-hidden border border-border">
-              <img
-                src="https://images.unsplash.com/photo-1590496793929-36417d3117de?w=800&q=80"
-                alt="Mining Trucks"
-                className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-black/60 group-hover:bg-black/40 transition-colors duration-300 z-10" />
-              <div className="absolute inset-0 flex flex-col justify-end p-8 z-20">
-                <h3 className="text-3xl font-display text-white uppercase tracking-tighter mb-2">Mining</h3>
-                <div className="flex items-center text-primary font-bold uppercase tracking-wider text-sm">
-                  View Category <ChevronRight size={16} className="ml-1 transition-transform group-hover:translate-x-2" />
-                </div>
-              </div>
-            </Link>
-            <Link href="/products?category=drilling-motors" className="group block relative aspect-[4/3] bg-muted overflow-hidden border border-border">
-              <img
-                src="https://images.unsplash.com/photo-1560472355-536de3962603?w=800&q=80"
-                alt="Drilling Motors"
-                className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-black/60 group-hover:bg-black/40 transition-colors duration-300 z-10" />
-              <div className="absolute inset-0 flex flex-col justify-end p-8 z-20">
-                <h3 className="text-3xl font-display text-white uppercase tracking-tighter mb-2">Drilling</h3>
-                <div className="flex items-center text-primary font-bold uppercase tracking-wider text-sm">
-                  View Category <ChevronRight size={16} className="ml-1 transition-transform group-hover:translate-x-2" />
-                </div>
-              </div>
-            </Link>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Featured Products */}
-      <section className="py-24 bg-background">
+      {/* Featured Stock - Clean Modern Grid */}
+      <section className="py-32 bg-card">
         <div className="container mx-auto px-4 md:px-8 max-w-7xl">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
-            <div>
-              <h2 className="text-4xl md:text-5xl font-display uppercase tracking-tighter mb-4">Featured Stock</h2>
-              <p className="text-muted-foreground max-w-xl">Premium machinery, inspected and ready for immediate deployment.</p>
+          <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
+            <div className="max-w-2xl">
+              <span className="text-primary text-[10px] font-bold uppercase tracking-[0.4em] mb-4 block">Curated Selection</span>
+              <h2 className="text-4xl md:text-6xl font-display uppercase tracking-tighter mb-6">Featured Stock</h2>
+              <p className="text-muted-foreground">Premium machinery, inspected and ready for immediate deployment to your site.</p>
             </div>
-            <Link href="/products" className="inline-flex items-center text-sm font-bold uppercase tracking-widest text-foreground hover:text-primary transition-colors pb-2 border-b-2 border-primary">
-              View All Equipment <ArrowRight className="ml-2" size={16} />
+            <Link href="/products" className="group flex items-center text-xs font-bold uppercase tracking-[0.2em] text-foreground hover:text-primary transition-all pb-2 border-b-2 border-primary">
+              Full Inventory <ArrowRight className="ml-3 group-hover:translate-x-2 transition-transform" size={16} />
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
             {featuredLoading ? (
               Array(3).fill(0).map((_, i) => (
-                <div key={i} className="flex flex-col gap-4">
-                  <Skeleton className="h-64 w-full rounded-none" />
-                  <Skeleton className="h-8 w-3/4 rounded-none" />
-                  <Skeleton className="h-4 w-1/2 rounded-none" />
+                <div key={i} className="space-y-6">
+                  <Skeleton className="aspect-[4/3] w-full" />
+                  <Skeleton className="h-8 w-3/4" />
+                  <Skeleton className="h-4 w-1/2" />
                 </div>
               ))
             ) : featuredProducts?.map((product) => (
-              <ProductCard key={product.id} product={product} />
+              <div key={product.id} className="animate-in fade-in slide-in-from-bottom-4 duration-700">
+                <ProductCard product={product} />
+              </div>
             ))}
             
             {featuredProducts?.length === 0 && (
-              <div className="col-span-full py-12 text-center text-muted-foreground uppercase font-bold tracking-widest">
-                No featured products currently available.
+              <div className="col-span-full py-24 text-center border-2 border-dashed border-border">
+                <p className="text-sm font-bold uppercase tracking-[0.3em] text-muted-foreground">No featured units currently listed.</p>
               </div>
             )}
+          </div>
+        </div>
+      </section>
+
+      {/* Call to Action */}
+      <section className="py-32 bg-primary relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-1/2 h-full bg-black/5 -skew-x-12 transform translate-x-1/4" />
+        <div className="container mx-auto px-4 md:px-8 max-w-7xl relative z-10 text-center">
+          <h2 className="text-4xl md:text-7xl font-display uppercase tracking-tighter text-primary-foreground mb-10 leading-none">
+            Ready to Power <br/> Your Operation?
+          </h2>
+          <p className="text-primary-foreground/80 text-lg max-w-2xl mx-auto mb-12">
+            Consult with our industrial experts today. We provide full technical documentation and logistical support for every acquisition.
+          </p>
+          <div className="flex flex-col sm:flex-row justify-center gap-6">
+            <Link href="/contact" className="bg-secondary text-secondary-foreground px-12 py-5 font-bold uppercase tracking-widest hover:bg-white hover:text-black transition-all duration-300 shadow-xl">
+              Request a Quote
+            </Link>
+            <Link href="/products" className="bg-transparent border-2 border-primary-foreground/30 text-primary-foreground px-12 py-5 font-bold uppercase tracking-widest hover:bg-primary-foreground hover:text-primary transition-all duration-300">
+              View All Stock
+            </Link>
           </div>
         </div>
       </section>
