@@ -2,156 +2,283 @@ import { useGetFeaturedProducts, useGetProductStats } from "@workspace/api-clien
 import { Link } from "wouter";
 import { ProductCard } from "@/components/shared/product-card";
 import { Layout } from "@/components/layout";
-import { ArrowRight, ShieldCheck, Gauge, Award, Globe, MessageCircle } from "lucide-react";
+import { ArrowRight, ShieldCheck, Gauge, Award, Globe, MessageCircle, Truck, Pickaxe, Drill, AlertTriangle, RefreshCw } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useLanguage } from "@/lib/i18n";
+
+const BRANDS = ["Caterpillar", "FAW", "Mercedes-Benz", "Iveco", "Volvo", "Komatsu", "Liebherr", "Sandvik", "Atlas Copco", "Terex"];
+
+function BrandMarquee() {
+  return (
+    <div className="py-5 bg-secondary border-y border-white/10 overflow-hidden">
+      <div className="flex gap-12 animate-[marquee_30s_linear_infinite] whitespace-nowrap w-max">
+        {[...BRANDS, ...BRANDS].map((brand, i) => (
+          <span key={i} className="text-[11px] font-bold uppercase tracking-[0.3em] text-muted-foreground/60 shrink-0">
+            {brand}
+            <span className="ml-12 text-primary/40">◆</span>
+          </span>
+        ))}
+      </div>
+      <style>{`
+        @keyframes marquee {
+          from { transform: translateX(0); }
+          to { transform: translateX(-50%); }
+        }
+      `}</style>
+    </div>
+  );
+}
 
 export default function Home() {
-  const { data: featuredProducts, isLoading: featuredLoading } = useGetFeaturedProducts();
+  const { data: featuredProducts, isLoading: featuredLoading, isError: featuredError, refetch: refetchFeatured } = useGetFeaturedProducts();
   const { data: stats, isLoading: statsLoading } = useGetProductStats();
+  const { t } = useLanguage();
+
+  const categoryCards = [
+    {
+      id: "trucks",
+      label: t.categories.trucks,
+      desc: t.categories.trucksDesc,
+      icon: <Truck size={32} className="text-primary" />,
+      img: "/attached_assets/generated_images/faw_heavy_cargo_transport_7f63.png",
+    },
+    {
+      id: "mining-trucks",
+      label: t.categories.mining,
+      desc: t.categories.miningDesc,
+      icon: <Pickaxe size={32} className="text-primary" />,
+      img: "/attached_assets/generated_images/caterpillar_777g_off_highway_19c6.png",
+    },
+    {
+      id: "drilling-motors",
+      label: t.categories.drilling,
+      desc: t.categories.drillingDesc,
+      icon: <Drill size={32} className="text-primary" />,
+      img: "/attached_assets/generated_images/downhole_mud_motor_drilling_4cf9.png",
+    },
+  ];
 
   return (
     <Layout>
-      {/* Hero Section */}
-      <section className="relative min-h-[90vh] flex items-center bg-secondary text-secondary-foreground overflow-hidden">
+      {/* ── Hero Section ── */}
+      <section className="relative min-h-[70vh] md:min-h-[78vh] flex items-center bg-secondary text-secondary-foreground overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <div className="absolute inset-0 bg-gradient-to-r from-secondary via-secondary/95 to-secondary/40 z-10" />
-          <img 
-            src="https://images.unsplash.com/photo-1590496793929-36417d3117de?w=1600&q=80" 
-            alt="Industrial Background" 
-            className="w-full h-full object-cover opacity-40 grayscale"
+          <div className="absolute inset-0 bg-gradient-to-r from-secondary via-secondary/92 to-secondary/50 z-10" />
+          <img
+            src="https://images.unsplash.com/photo-1590496793929-36417d3117de?w=1600&q=80"
+            alt="Industrial Background"
+            className="w-full h-full object-cover opacity-50 grayscale"
+            loading="eager"
           />
-          <div className="absolute top-1/4 -right-20 w-96 h-96 bg-primary/10 rounded-full blur-[120px] animate-pulse" />
+          <div className="absolute top-1/3 right-0 w-[500px] h-[500px] bg-primary/8 rounded-full blur-[150px]" />
+          <div className="absolute bottom-0 left-1/4 w-[300px] h-[300px] bg-primary/5 rounded-full blur-[100px]" />
         </div>
-        
-        <div className="container mx-auto px-4 md:px-8 max-w-7xl relative z-20 py-20">
+
+        <div className="container mx-auto px-4 md:px-8 max-w-7xl relative z-20 py-16 md:py-24">
           <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-3 px-4 py-2 bg-white/5 border border-white/10 text-primary text-[10px] font-bold uppercase tracking-[0.3em] mb-10 rounded-full">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+            <div className="inline-flex items-center gap-2.5 px-4 py-2 bg-white/5 border border-white/10 text-primary text-[10px] font-bold uppercase tracking-[0.3em] mb-8 rounded-full">
+              <span className="relative flex h-2 w-2 shrink-0">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-primary" />
               </span>
-              Garkuwan Kanam & Co Ventures
+              {t.hero.badge}
             </div>
-            
-            <h1 className="text-6xl md:text-8xl lg:text-9xl font-display leading-[0.85] tracking-tighter mb-10 text-white uppercase italic">
-              Built for <br/>
-              <span className="text-primary not-italic">Scale.</span><br/>
-              Driven by <br/>
-              <span className="text-primary not-italic">Power.</span>
+
+            <h1 className="text-[clamp(2.5rem,8vw,6.5rem)] font-display leading-[0.88] tracking-tighter mb-8 text-white uppercase italic">
+              {t.hero.line1} <br />
+              <span className="text-primary not-italic">{t.hero.line2}</span><br />
+              {t.hero.line3} <br />
+              <span className="text-primary not-italic">{t.hero.line4}</span>
             </h1>
-            
-            <p className="text-lg md:text-xl text-muted-foreground max-w-xl leading-relaxed mb-12 border-l-2 border-primary/30 pl-8">
-              Nigeria's premier gateway to world-class heavy machinery. From deep-well drilling to large-scale mining operations, we deliver the force that builds nations.
+
+            <p className="text-base md:text-lg text-muted-foreground max-w-xl leading-relaxed mb-10 border-l-2 border-primary/30 pl-6">
+              {t.hero.sub}
             </p>
-            
-            <div className="flex flex-col sm:flex-row gap-6">
-              <Link href="/products" className="group inline-flex items-center justify-center bg-primary text-primary-foreground px-10 py-5 font-bold uppercase tracking-widest hover:bg-white hover:text-black transition-all duration-500 text-sm shadow-2xl shadow-primary/20">
-                Explore Inventory <ArrowRight className="ml-3 group-hover:translate-x-2 transition-transform" size={18} />
+
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Link
+                href="/products"
+                className="group inline-flex items-center justify-center bg-primary text-primary-foreground px-8 py-4 font-bold uppercase tracking-widest hover:bg-white hover:text-black transition-all duration-400 text-sm shadow-xl shadow-primary/20"
+              >
+                {t.hero.cta1} <ArrowRight className="ml-3 group-hover:translate-x-1.5 transition-transform" size={16} />
               </Link>
-              <a href="https://wa.me/2348039891568" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center border border-white/20 text-white px-10 py-5 font-bold uppercase tracking-widest hover:bg-white/5 transition-all duration-500 text-sm gap-3">
-                <MessageCircle size={18} /> Chat with Sales
+              <a
+                href="https://wa.me/2348039891568"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center border border-white/20 text-white px-8 py-4 font-bold uppercase tracking-widest hover:bg-white/8 transition-all duration-400 text-sm gap-2.5"
+              >
+                <MessageCircle size={16} /> {t.hero.cta2}
               </a>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Modern Stats Bar */}
-      <section className="py-12 bg-white border-b border-border">
+      {/* ── Brand Marquee ── */}
+      <BrandMarquee />
+
+      {/* ── Stats Bar ── */}
+      <section className="py-10 md:py-14 bg-background border-b border-border">
         <div className="container mx-auto px-4 md:px-8 max-w-7xl">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-12 divide-x-0 lg:divide-x divide-border">
-            {statsLoading ? (
-              Array(4).fill(0).map((_, i) => (
-                <div key={i} className="px-6 space-y-2">
-                  <Skeleton className="h-10 w-20" />
-                  <Skeleton className="h-3 w-32" />
-                </div>
-              ))
-            ) : stats ? (
-              <>
-                <div className="lg:px-10 flex flex-col justify-center">
-                  <span className="text-4xl md:text-5xl font-display text-primary leading-none mb-2">{stats.totalProducts}</span>
-                  <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground">Units in Stock</span>
-                </div>
-                <div className="lg:px-10 flex flex-col justify-center">
-                  <span className="text-4xl md:text-5xl font-display text-secondary leading-none mb-2">{stats.byCategory.trucks || 0}</span>
-                  <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground">Heavy Trucks</span>
-                </div>
-                <div className="lg:px-10 flex flex-col justify-center">
-                  <span className="text-4xl md:text-5xl font-display text-secondary leading-none mb-2">{stats.byCategory["mining-trucks"] || 0}</span>
-                  <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground">Mining Units</span>
-                </div>
-                <div className="lg:px-10 flex flex-col justify-center">
-                  <span className="text-4xl md:text-5xl font-display text-secondary leading-none mb-2">{stats.byCategory["drilling-motors"] || 0}</span>
-                  <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground">Drilling Systems</span>
-                </div>
-              </>
-            ) : null}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-0 divide-y md:divide-y-0 md:divide-x divide-border">
+            {statsLoading
+              ? Array(4).fill(0).map((_, i) => (
+                  <div key={i} className="px-6 py-6 space-y-2">
+                    <Skeleton className="h-10 w-16" />
+                    <Skeleton className="h-3 w-28" />
+                  </div>
+                ))
+              : stats
+              ? [
+                  { value: stats.totalProducts, label: t.stats.units, color: "text-primary" },
+                  { value: stats.byCategory.trucks || 0, label: t.stats.trucks, color: "text-secondary" },
+                  { value: stats.byCategory["mining-trucks"] || 0, label: t.stats.mining, color: "text-secondary" },
+                  { value: stats.byCategory["drilling-motors"] || 0, label: t.stats.drilling, color: "text-secondary" },
+                ].map((item, i) => (
+                  <div key={i} className="px-6 md:px-10 py-6 md:py-8 flex flex-col justify-center">
+                    <span className={`text-4xl md:text-5xl font-display leading-none mb-2 ${item.color}`}>{item.value}</span>
+                    <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground">{item.label}</span>
+                  </div>
+                ))
+              : null}
           </div>
         </div>
       </section>
 
-      {/* Why Garkuwan Section */}
-      <section className="py-32 bg-background overflow-hidden">
+      {/* ── Category Cards ── */}
+      <section className="py-16 md:py-24 bg-card">
         <div className="container mx-auto px-4 md:px-8 max-w-7xl">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
-            <div className="relative">
-              <h2 className="text-4xl md:text-6xl font-display uppercase tracking-tighter leading-tight mb-8">
-                The Trusted <br/>
-                <span className="text-primary">Industrial Partner</span> <br/>
+          <div className="mb-10 md:mb-14">
+            <span className="text-primary text-[10px] font-bold uppercase tracking-[0.4em] mb-3 block">{t.categories.heading}</span>
+            <h2 className="text-3xl md:text-5xl font-display uppercase tracking-tighter leading-none">{t.categories.sub}</h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+            {categoryCards.map((cat) => (
+              <Link key={cat.id} href={`/products?category=${cat.id}`} className="group relative overflow-hidden aspect-[4/3] md:aspect-[3/4] lg:aspect-[4/3] block">
+                <div className="absolute inset-0 bg-secondary/80 group-hover:bg-secondary/60 transition-colors duration-500 z-10" />
+                <img
+                  src={cat.img}
+                  alt={cat.label}
+                  className="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 z-20 flex flex-col justify-end p-6 md:p-8">
+                  <div className="mb-4 w-12 h-12 bg-primary/10 border border-primary/30 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                    {cat.icon}
+                  </div>
+                  <h3 className="text-xl md:text-2xl font-display uppercase tracking-tight text-white mb-2">{cat.label}</h3>
+                  <p className="text-sm text-muted-foreground mb-4 leading-relaxed">{cat.desc}</p>
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-primary flex items-center gap-2 group-hover:gap-3 transition-all">
+                    {t.categories.browse} <ArrowRight size={12} />
+                  </span>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Featured Stock ── */}
+      <section className="py-16 md:py-24 bg-background">
+        <div className="container mx-auto px-4 md:px-8 max-w-7xl">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-6">
+            <div className="max-w-2xl">
+              <span className="text-primary text-[10px] font-bold uppercase tracking-[0.4em] mb-3 block">{t.featured.label}</span>
+              <h2 className="text-3xl md:text-5xl font-display uppercase tracking-tighter mb-4">{t.featured.heading}</h2>
+              <p className="text-muted-foreground text-base">{t.featured.sub}</p>
+            </div>
+            <Link
+              href="/products"
+              className="group flex items-center text-xs font-bold uppercase tracking-[0.2em] text-foreground hover:text-primary transition-all pb-2 border-b-2 border-primary shrink-0"
+            >
+              {t.featured.viewAll} <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={14} />
+            </Link>
+          </div>
+
+          {featuredError ? (
+            <div className="py-16 text-center border border-dashed border-border bg-card/40 rounded">
+              <AlertTriangle className="mx-auto mb-4 text-destructive/60" size={40} />
+              <p className="font-bold uppercase tracking-wider text-sm mb-2">{t.featured.error}</p>
+              <button
+                onClick={() => refetchFeatured()}
+                className="mt-4 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-primary hover:underline"
+              >
+                <RefreshCw size={12} /> Retry
+              </button>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+              {featuredLoading
+                ? Array(3).fill(0).map((_, i) => (
+                    <div key={i} className="space-y-4 border border-border bg-card p-0 overflow-hidden">
+                      <Skeleton className="aspect-[4/3] w-full rounded-none" />
+                      <div className="p-5 space-y-3">
+                        <Skeleton className="h-5 w-1/3" />
+                        <Skeleton className="h-7 w-3/4" />
+                        <Skeleton className="h-4 w-1/2" />
+                      </div>
+                    </div>
+                  ))
+                : featuredProducts && featuredProducts.length > 0
+                ? featuredProducts.map((product) => (
+                    <div key={product.id} className="animate-in fade-in slide-in-from-bottom-3 duration-500">
+                      <ProductCard product={product} />
+                    </div>
+                  ))
+                : (
+                    <div className="col-span-full py-16 text-center border border-dashed border-border bg-card/40">
+                      <p className="text-muted-foreground text-sm max-w-sm mx-auto mb-6">{t.featured.empty}</p>
+                      <Link href="/products" className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-primary hover:underline">
+                        {t.featured.viewAll} <ArrowRight size={12} />
+                      </Link>
+                    </div>
+                  )}
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* ── Why Garkuwan Section ── */}
+      <section className="py-16 md:py-24 bg-card overflow-hidden">
+        <div className="container mx-auto px-4 md:px-8 max-w-7xl">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+            <div>
+              <h2 className="text-3xl md:text-5xl font-display uppercase tracking-tighter leading-tight mb-6">
+                {t.why.heading1} <br />
+                <span className="text-primary">{t.why.heading2}</span> <br />
                 in West Africa.
               </h2>
-              <p className="text-muted-foreground text-lg mb-12 leading-relaxed">
-                Garkuwan Kanam & Co Ventures isn't just a supplier. We are an industrial force providing verified, heavy-duty machinery for the most demanding environments on the continent.
-              </p>
-              
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                <div className="flex gap-5">
-                  <div className="w-12 h-12 bg-secondary flex items-center justify-center shrink-0">
-                    <ShieldCheck className="text-primary" size={24} />
+              <p className="text-muted-foreground text-base mb-10 leading-relaxed max-w-lg">{t.why.sub}</p>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                {[
+                  { icon: <ShieldCheck size={20} />, title: t.why.v1, desc: t.why.v1d },
+                  { icon: <Gauge size={20} />, title: t.why.v2, desc: t.why.v2d },
+                  { icon: <Award size={20} />, title: t.why.v3, desc: t.why.v3d },
+                  { icon: <Globe size={20} />, title: t.why.v4, desc: t.why.v4d },
+                ].map((item, i) => (
+                  <div key={i} className="flex gap-4">
+                    <div className="w-10 h-10 bg-secondary flex items-center justify-center shrink-0 mt-0.5">
+                      <span className="text-primary">{item.icon}</span>
+                    </div>
+                    <div>
+                      <h4 className="font-bold uppercase tracking-wider text-sm mb-1.5">{item.title}</h4>
+                      <p className="text-xs text-muted-foreground leading-relaxed">{item.desc}</p>
+                    </div>
                   </div>
-                  <div>
-                    <h4 className="font-bold uppercase tracking-wider text-sm mb-2">Verified Stock</h4>
-                    <p className="text-xs text-muted-foreground leading-relaxed">Every unit undergoes a 150-point industrial inspection before listing.</p>
-                  </div>
-                </div>
-                <div className="flex gap-5">
-                  <div className="w-12 h-12 bg-secondary flex items-center justify-center shrink-0">
-                    <Gauge className="text-primary" size={24} />
-                  </div>
-                  <div>
-                    <h4 className="font-bold uppercase tracking-wider text-sm mb-2">High Efficiency</h4>
-                    <p className="text-xs text-muted-foreground leading-relaxed">Optimized machinery designed for maximum uptime and output.</p>
-                  </div>
-                </div>
-                <div className="flex gap-5">
-                  <div className="w-12 h-12 bg-secondary flex items-center justify-center shrink-0">
-                    <Award className="text-primary" size={24} />
-                  </div>
-                  <div>
-                    <h4 className="font-bold uppercase tracking-wider text-sm mb-2">Certified Brands</h4>
-                    <p className="text-xs text-muted-foreground leading-relaxed">Direct partnerships with Caterpillar, FAW, and Mercedes-Benz.</p>
-                  </div>
-                </div>
-                <div className="flex gap-5">
-                  <div className="w-12 h-12 bg-secondary flex items-center justify-center shrink-0">
-                    <Globe className="text-primary" size={24} />
-                  </div>
-                  <div>
-                    <h4 className="font-bold uppercase tracking-wider text-sm mb-2">Regional Reach</h4>
-                    <p className="text-xs text-muted-foreground leading-relaxed">Full logistics support across all 36 states in Nigeria and beyond.</p>
-                  </div>
-                </div>
+                ))}
               </div>
             </div>
-            
-            <div className="relative group">
-              <div className="absolute -inset-4 bg-primary/10 -rotate-2 group-hover:rotate-0 transition-transform duration-700" />
+
+            <div className="relative group hidden lg:block">
+              <div className="absolute -inset-4 bg-primary/8 -rotate-2 group-hover:rotate-0 transition-transform duration-700" />
               <div className="relative aspect-[4/5] overflow-hidden border border-border">
-                <img 
-                  src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1000&q=80" 
-                  alt="Industrial Power" 
-                  className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 scale-110 group-hover:scale-100"
+                <img
+                  src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1000&q=80"
+                  alt="Industrial Power"
+                  className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 scale-105 group-hover:scale-100"
+                  loading="lazy"
                 />
               </div>
             </div>
@@ -159,52 +286,33 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Featured Stock */}
-      <section className="py-32 bg-card">
-        <div className="container mx-auto px-4 md:px-8 max-w-7xl">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
-            <div className="max-w-2xl">
-              <span className="text-primary text-[10px] font-bold uppercase tracking-[0.4em] mb-4 block">Curated Selection</span>
-              <h2 className="text-4xl md:text-6xl font-display uppercase tracking-tighter mb-6">Featured Stock</h2>
-              <p className="text-muted-foreground">Premium machinery, inspected and ready for immediate deployment to your site.</p>
-            </div>
-            <Link href="/products" className="group flex items-center text-xs font-bold uppercase tracking-[0.2em] text-foreground hover:text-primary transition-all pb-2 border-b-2 border-primary">
-              Full Inventory <ArrowRight className="ml-3 group-hover:translate-x-2 transition-transform" size={16} />
-            </Link>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-            {featuredLoading ? (
-              Array(3).fill(0).map((_, i) => (
-                <div key={i} className="space-y-6">
-                  <Skeleton className="aspect-[4/3] w-full" />
-                  <Skeleton className="h-8 w-3/4" />
-                </div>
-              ))
-            ) : featuredProducts?.map((product) => (
-              <div key={product.id} className="animate-in fade-in slide-in-from-bottom-4 duration-700">
-                <ProductCard product={product} />
-              </div>
-            ))}
-          </div>
+      {/* ── Call to Action ── */}
+      <section className="py-16 md:py-24 bg-primary relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-0 left-1/4 w-96 h-96 bg-white rounded-full blur-[120px]" />
+          <div className="absolute bottom-0 right-1/4 w-64 h-64 bg-white rounded-full blur-[80px]" />
         </div>
-      </section>
-
-      {/* Call to Action */}
-      <section className="py-32 bg-primary relative overflow-hidden">
         <div className="container mx-auto px-4 md:px-8 max-w-7xl relative z-10 text-center text-primary-foreground">
-          <h2 className="text-4xl md:text-7xl font-display uppercase tracking-tighter mb-10 leading-none">
-            Ready to Power <br/> Your Operation?
+          <h2 className="text-3xl md:text-6xl font-display uppercase tracking-tighter mb-6 leading-tight">
+            {t.cta.heading}
           </h2>
-          <p className="text-primary-foreground/80 text-lg max-w-2xl mx-auto mb-12">
-            Consult with our industrial experts today. We provide full technical documentation and logistical support for every acquisition.
+          <p className="text-primary-foreground/80 text-base md:text-lg max-w-xl mx-auto mb-10 leading-relaxed">
+            {t.cta.sub}
           </p>
-          <div className="flex flex-col sm:flex-row justify-center gap-6">
-            <a href="https://wa.me/2348039891568" target="_blank" rel="noopener noreferrer" className="bg-secondary text-secondary-foreground px-12 py-5 font-bold uppercase tracking-widest hover:bg-white hover:text-black transition-all duration-300 shadow-xl flex items-center justify-center gap-3">
-              <MessageCircle size={20} /> WhatsApp Sales
+          <div className="flex flex-col sm:flex-row justify-center gap-4">
+            <a
+              href="https://wa.me/2348039891568"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-secondary text-secondary-foreground px-10 py-4 font-bold uppercase tracking-widest hover:bg-white hover:text-black transition-all duration-300 shadow-lg flex items-center justify-center gap-2.5 text-sm"
+            >
+              <MessageCircle size={18} /> {t.cta.btn1}
             </a>
-            <Link href="/contact" className="bg-transparent border-2 border-primary-foreground/30 text-primary-foreground px-12 py-5 font-bold uppercase tracking-widest hover:bg-primary-foreground hover:text-primary transition-all duration-300">
-              Request a Quote
+            <Link
+              href="/contact"
+              className="bg-transparent border-2 border-primary-foreground/30 text-primary-foreground px-10 py-4 font-bold uppercase tracking-widest hover:bg-primary-foreground hover:text-primary transition-all duration-300 text-sm"
+            >
+              {t.cta.btn2}
             </Link>
           </div>
         </div>
