@@ -1,7 +1,7 @@
 import { db, productsTable } from "../../lib/db/src/index";
 
 async function seed() {
-  console.log("🌱 Seeding database with fixed image paths and full inventory...");
+  console.log("🌱 Seeding database with absolute public paths...");
 
   const initialProducts = [
     {
