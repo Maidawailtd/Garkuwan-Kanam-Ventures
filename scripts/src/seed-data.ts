@@ -1,7 +1,7 @@
 import { db, productsTable } from "../../lib/db/src/index";
 
 async function seed() {
-  console.log("🌱 Seeding database with expanded Garkuwan Kanam Ventures equipment...");
+  console.log("🌱 Seeding database with fixed image paths and full inventory...");
 
   const initialProducts = [
     {
@@ -17,6 +17,20 @@ async function seed() {
       condition: "new",
       featured: true,
       imageUrl: "/attached_assets/generated_images/caterpillar_777g_off_highway_19c6.png"
+    },
+    {
+      name: "Caterpillar 785D Mining Truck",
+      category: "mining-trucks",
+      priceNgn: 850000000,
+      priceUsd: 560000,
+      description: "Giant-scale mining truck designed for maximum productivity and lowest cost per ton in large-scale operations.",
+      specs: "Payload: 150 tons; Engine: Cat 3512C HD; Gross Power: 1450 HP",
+      brand: "Caterpillar",
+      model: "785D",
+      year: 2024,
+      condition: "new",
+      featured: true,
+      imageUrl: "/attached_assets/generated_images/caterpillar_785d_giant_mining_212d.png"
     },
     {
       name: "FAW J6P Heavy Cargo Transport",
@@ -45,6 +59,20 @@ async function seed() {
       condition: "new",
       featured: true,
       imageUrl: "/attached_assets/generated_images/downhole_mud_motor_drilling_4cf9.png"
+    },
+    {
+      name: "Progressive Cavity Downhole Motor",
+      category: "drilling-motors",
+      priceNgn: 85000000,
+      priceUsd: 58000,
+      description: "Specialized drilling motor designed for high-torque performance in difficult geological formations.",
+      specs: "Power: High Torque; Configuration: Multi-Lobe; Application: Deep Well Drilling",
+      brand: "Industrial",
+      model: "PC-9000",
+      year: 2024,
+      condition: "new",
+      featured: false,
+      imageUrl: "/attached_assets/generated_images/progressive_cavity_downhole_drilling_9a04.png"
     },
     {
       name: "Mercedes-Benz Actros Tractor Unit",
@@ -105,9 +133,12 @@ async function seed() {
   ];
 
   try {
+    console.log("⏳ Clearing existing products...");
+    await db.delete(productsTable);
+    
     console.log("⏳ Inserting products...");
     await db.insert(productsTable).values(initialProducts);
-    console.log("✅ Successfully seeded " + initialProducts.length + " products with correct metadata!");
+    console.log("✅ Successfully seeded " + initialProducts.length + " products with fixed images!");
   } catch (error) {
     console.error("❌ Error seeding database:", error);
   } finally {

@@ -1,7 +1,7 @@
 import { Link, useLocation } from "wouter";
 import { useHealthCheck } from "@workspace/api-client-react";
 import logoImg from "@assets/garkuwa_1781236104796.jpg";
-import { Menu, X, Phone, Mail, MapPin } from "lucide-react";
+import { Menu, X, Phone, Mail, MapPin, MessageCircle } from "lucide-react";
 import { useState } from "react";
 
 export function Navbar() {
@@ -11,6 +11,7 @@ export function Navbar() {
   const links = [
     { href: "/", label: "Home" },
     { href: "/products", label: "Inventory" },
+    { href: "/services", label: "Services" },
     { href: "/about", label: "About Us" },
     { href: "/contact", label: "Contact" },
   ];
@@ -110,6 +111,7 @@ export function Footer() {
             <ul className="space-y-4 text-sm text-muted-foreground">
               <li><Link href="/" className="hover:text-primary transition-colors">Home</Link></li>
               <li><Link href="/products" className="hover:text-primary transition-colors">Inventory Catalog</Link></li>
+              <li><Link href="/services" className="hover:text-primary transition-colors">Maintenance & Parts</Link></li>
               <li><Link href="/about" className="hover:text-primary transition-colors">Company Profile</Link></li>
               <li><Link href="/contact" className="hover:text-primary transition-colors">Get in Touch</Link></li>
             </ul>
@@ -134,11 +136,11 @@ export function Footer() {
               </li>
               <li className="flex gap-4">
                 <Phone className="text-primary shrink-0" size={18} />
-                <span>+234 800 GARKUWAN</span>
+                <span>08039891568</span>
               </li>
               <li className="flex gap-4">
                 <Mail className="text-primary shrink-0" size={18} />
-                <span>sales@garkuwan.com.ng</span>
+                <span>mglink@mail.com</span>
               </li>
             </ul>
           </div>
@@ -164,6 +166,17 @@ export function Layout({ children }: { children: React.ReactNode }) {
         {children}
       </main>
       <Footer />
+      
+      {/* Floating WhatsApp Button */}
+      <a 
+        href="https://wa.me/2348039891568" 
+        target="_blank" 
+        rel="noopener noreferrer"
+        className="fixed bottom-8 right-8 z-50 bg-[#25D366] text-white p-4 rounded-full shadow-2xl hover:scale-110 transition-transform duration-300 flex items-center justify-center"
+        aria-label="Chat on WhatsApp"
+      >
+        <MessageCircle size={32} />
+      </a>
     </div>
   );
 }

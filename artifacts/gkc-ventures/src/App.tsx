@@ -10,6 +10,7 @@ import Checkout from "@/pages/checkout/index";
 import OrderConfirmation from "@/pages/checkout/confirmation";
 import About from "@/pages/about";
 import Contact from "@/pages/contact";
+import Services from "@/pages/services";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -31,6 +32,7 @@ function Router() {
       <Route path="/order-confirmation" component={OrderConfirmation} />
       <Route path="/about" component={About} />
       <Route path="/contact" component={Contact} />
+      <Route path="/services" component={Services} />
       <Route component={NotFound} />
     </Switch>
   );

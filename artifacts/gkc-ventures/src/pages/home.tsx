@@ -2,7 +2,7 @@ import { useGetFeaturedProducts, useGetProductStats } from "@workspace/api-clien
 import { Link } from "wouter";
 import { ProductCard } from "@/components/shared/product-card";
 import { Layout } from "@/components/layout";
-import { ArrowRight, ChevronRight, ShieldCheck, Gauge, Award, Globe } from "lucide-react";
+import { ArrowRight, ShieldCheck, Gauge, Award, Globe, MessageCircle } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export default function Home() {
@@ -11,9 +11,8 @@ export default function Home() {
 
   return (
     <Layout>
-      {/* Hero Section - Modern Premium Style */}
+      {/* Hero Section */}
       <section className="relative min-h-[90vh] flex items-center bg-secondary text-secondary-foreground overflow-hidden">
-        {/* Background Visuals */}
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-gradient-to-r from-secondary via-secondary/95 to-secondary/40 z-10" />
           <img 
@@ -21,9 +20,7 @@ export default function Home() {
             alt="Industrial Background" 
             className="w-full h-full object-cover opacity-40 grayscale"
           />
-          {/* Animated Accents */}
           <div className="absolute top-1/4 -right-20 w-96 h-96 bg-primary/10 rounded-full blur-[120px] animate-pulse" />
-          <div className="absolute bottom-1/4 -left-20 w-96 h-96 bg-primary/5 rounded-full blur-[100px]" />
         </div>
         
         <div className="container mx-auto px-4 md:px-8 max-w-7xl relative z-20 py-20">
@@ -33,7 +30,7 @@ export default function Home() {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
               </span>
-              Industrial Power Solutions
+              Garkuwan Kanam & Co Ventures
             </div>
             
             <h1 className="text-6xl md:text-8xl lg:text-9xl font-display leading-[0.85] tracking-tighter mb-10 text-white uppercase italic">
@@ -51,23 +48,9 @@ export default function Home() {
               <Link href="/products" className="group inline-flex items-center justify-center bg-primary text-primary-foreground px-10 py-5 font-bold uppercase tracking-widest hover:bg-white hover:text-black transition-all duration-500 text-sm shadow-2xl shadow-primary/20">
                 Explore Inventory <ArrowRight className="ml-3 group-hover:translate-x-2 transition-transform" size={18} />
               </Link>
-              <Link href="/about" className="inline-flex items-center justify-center border border-white/20 text-white px-10 py-5 font-bold uppercase tracking-widest hover:bg-white/5 transition-all duration-500 text-sm">
-                Our Profile
-              </Link>
-            </div>
-          </div>
-        </div>
-
-        {/* Floating Quick Stats */}
-        <div className="absolute bottom-0 right-0 hidden xl:block w-1/3 border-t border-l border-white/10 bg-white/5 backdrop-blur-xl p-12 z-30">
-          <div className="grid grid-cols-2 gap-10">
-            <div className="space-y-2">
-              <span className="text-4xl font-display text-white">100%</span>
-              <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold">Certified Quality</p>
-            </div>
-            <div className="space-y-2">
-              <span className="text-4xl font-display text-white">24/7</span>
-              <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold">Field Support</p>
+              <a href="https://wa.me/2348039891568" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center border border-white/20 text-white px-10 py-5 font-bold uppercase tracking-widest hover:bg-white/5 transition-all duration-500 text-sm gap-3">
+                <MessageCircle size={18} /> Chat with Sales
+              </a>
             </div>
           </div>
         </div>
@@ -113,7 +96,6 @@ export default function Home() {
         <div className="container mx-auto px-4 md:px-8 max-w-7xl">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
             <div className="relative">
-              <div className="absolute -top-10 -left-10 w-40 h-40 bg-primary/5 rounded-full blur-3xl" />
               <h2 className="text-4xl md:text-6xl font-display uppercase tracking-tighter leading-tight mb-8">
                 The Trusted <br/>
                 <span className="text-primary">Industrial Partner</span> <br/>
@@ -177,7 +159,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Featured Stock - Clean Modern Grid */}
+      {/* Featured Stock */}
       <section className="py-32 bg-card">
         <div className="container mx-auto px-4 md:px-8 max-w-7xl">
           <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
@@ -197,7 +179,6 @@ export default function Home() {
                 <div key={i} className="space-y-6">
                   <Skeleton className="aspect-[4/3] w-full" />
                   <Skeleton className="h-8 w-3/4" />
-                  <Skeleton className="h-4 w-1/2" />
                 </div>
               ))
             ) : featuredProducts?.map((product) => (
@@ -205,32 +186,25 @@ export default function Home() {
                 <ProductCard product={product} />
               </div>
             ))}
-            
-            {featuredProducts?.length === 0 && (
-              <div className="col-span-full py-24 text-center border-2 border-dashed border-border">
-                <p className="text-sm font-bold uppercase tracking-[0.3em] text-muted-foreground">No featured units currently listed.</p>
-              </div>
-            )}
           </div>
         </div>
       </section>
 
       {/* Call to Action */}
       <section className="py-32 bg-primary relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-1/2 h-full bg-black/5 -skew-x-12 transform translate-x-1/4" />
-        <div className="container mx-auto px-4 md:px-8 max-w-7xl relative z-10 text-center">
-          <h2 className="text-4xl md:text-7xl font-display uppercase tracking-tighter text-primary-foreground mb-10 leading-none">
+        <div className="container mx-auto px-4 md:px-8 max-w-7xl relative z-10 text-center text-primary-foreground">
+          <h2 className="text-4xl md:text-7xl font-display uppercase tracking-tighter mb-10 leading-none">
             Ready to Power <br/> Your Operation?
           </h2>
           <p className="text-primary-foreground/80 text-lg max-w-2xl mx-auto mb-12">
             Consult with our industrial experts today. We provide full technical documentation and logistical support for every acquisition.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-6">
-            <Link href="/contact" className="bg-secondary text-secondary-foreground px-12 py-5 font-bold uppercase tracking-widest hover:bg-white hover:text-black transition-all duration-300 shadow-xl">
+            <a href="https://wa.me/2348039891568" target="_blank" rel="noopener noreferrer" className="bg-secondary text-secondary-foreground px-12 py-5 font-bold uppercase tracking-widest hover:bg-white hover:text-black transition-all duration-300 shadow-xl flex items-center justify-center gap-3">
+              <MessageCircle size={20} /> WhatsApp Sales
+            </a>
+            <Link href="/contact" className="bg-transparent border-2 border-primary-foreground/30 text-primary-foreground px-12 py-5 font-bold uppercase tracking-widest hover:bg-primary-foreground hover:text-primary transition-all duration-300">
               Request a Quote
-            </Link>
-            <Link href="/products" className="bg-transparent border-2 border-primary-foreground/30 text-primary-foreground px-12 py-5 font-bold uppercase tracking-widest hover:bg-primary-foreground hover:text-primary transition-all duration-300">
-              View All Stock
             </Link>
           </div>
         </div>

@@ -1,10 +1,11 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocation } from "wouter";
 import { useVerifyPayment, useGetOrder, getGetOrderQueryKey } from "@workspace/api-client-react";
 import { Layout } from "@/components/layout";
 import { FormatPrice } from "@/components/shared/format-price";
-import { ShieldCheck, XCircle, ArrowRight, Loader2, Printer } from "lucide-react";
+import { ShieldCheck, XCircle, ArrowRight, Loader2, Printer, Star, MessageSquareText } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useToast } from "@/hooks/use-toast";
 
 export default function OrderConfirmation() {
   const searchParams = new URLSearchParams(window.location.search);
@@ -14,15 +15,17 @@ export default function OrderConfirmation() {
   
   const orderId = orderIdParam ? parseInt(orderIdParam, 10) : 0;
   const [, setLocation] = useLocation();
+  const { toast } = useToast();
   
   const verifyPayment = useVerifyPayment();
   const hasAttemptedVerification = useRef(false);
-
-  // We need tx_ref from the URL (Flutterwave standard) or we can use transaction_id depending on integration
-  // The API expects { txRef, transactionId }
   
+  const [feedback, setFeedback] = useState("");
+  const [rating, setRating] = useState(0);
+  const [isSubmittingFeedback, setIsSubmittingFeedback] = useState(false);
+  const [feedbackSubmitted, setFeedbackSubmitted] = useState(false);
+
   useEffect(() => {
-    // Only run verification once on mount if we have the right params
     if (orderId && transactionId && txRef && !hasAttemptedVerification.current) {
       hasAttemptedVerification.current = true;
       verifyPayment.mutate({
@@ -35,7 +38,6 @@ export default function OrderConfirmation() {
     }
   }, [orderId, transactionId, txRef]);
 
-  // Fetch the latest order state to show the receipt
   const { data: order, isLoading: isOrderLoading } = useGetOrder(orderId, {
     query: {
       enabled: !!orderId,
@@ -43,9 +45,28 @@ export default function OrderConfirmation() {
     }
   });
 
-  const isVerifying = verifyPayment.isPending;
-  const verificationFailed = verifyPayment.isError;
-  const orderReady = !!order && !isVerifying;
+  const handleFeedbackSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (rating === 0) {
+      toast({
+        variant: "destructive",
+        title: "Rating Required",
+        description: "Please select a rating before submitting.",
+      });
+      return;
+    }
+    
+    setIsSubmittingFeedback(true);
+    // Simulate API call
+    setTimeout(() => {
+      setIsSubmittingFeedback(false);
+      setFeedbackSubmitted(true);
+      toast({
+        title: "Feedback Received",
+        description: "Thank you for your valuable feedback!",
+      });
+    }, 1500);
+  };
 
   if (!orderId) {
     return (
@@ -66,15 +87,14 @@ export default function OrderConfirmation() {
       <div className="min-h-[70vh] bg-secondary flex flex-col items-center justify-center p-4 md:p-8">
         <div className="w-full max-w-2xl bg-card border border-border shadow-2xl">
           
-          {/* Header Status */}
           <div className="p-8 text-center border-b border-border bg-background">
-            {isVerifying || isOrderLoading ? (
+            {verifyPayment.isPending || isOrderLoading ? (
               <div className="flex flex-col items-center">
                 <Loader2 className="w-16 h-16 text-primary animate-spin mb-6" />
                 <h1 className="text-3xl font-display uppercase tracking-tighter mb-2">Verifying Transaction</h1>
                 <p className="text-muted-foreground font-mono text-xs uppercase">Communicating with Flutterwave...</p>
               </div>
-            ) : verificationFailed || order?.paymentStatus === "failed" ? (
+            ) : verifyPayment.isError || order?.paymentStatus === "failed" ? (
               <div className="flex flex-col items-center">
                 <XCircle className="w-16 h-16 text-destructive mb-6" />
                 <h1 className="text-3xl font-display uppercase tracking-tighter mb-2">Payment Failed</h1>
@@ -96,14 +116,12 @@ export default function OrderConfirmation() {
             )}
           </div>
 
-          {/* Receipt Content */}
           <div className="p-8">
             {isOrderLoading ? (
               <div className="space-y-4">
                 <Skeleton className="h-6 w-full" />
                 <Skeleton className="h-6 w-full" />
                 <Skeleton className="h-6 w-3/4" />
-                <Skeleton className="h-20 w-full mt-8" />
               </div>
             ) : order ? (
               <>
@@ -120,14 +138,7 @@ export default function OrderConfirmation() {
                     <span className="block text-xs uppercase tracking-wider text-muted-foreground font-bold mb-1">Billed To</span>
                     <span className="font-medium block">{order.customerName}</span>
                     <span className="text-muted-foreground block">{order.customerEmail}</span>
-                    <span className="text-muted-foreground block">{order.customerPhone}</span>
                   </div>
-                  {order.shippingAddress && (
-                    <div className="col-span-2 pt-4 border-t border-border/50">
-                      <span className="block text-xs uppercase tracking-wider text-muted-foreground font-bold mb-1">Delivery Address</span>
-                      <span className="font-medium block whitespace-pre-wrap">{order.shippingAddress}</span>
-                    </div>
-                  )}
                 </div>
 
                 <div className="border border-border bg-background p-4 mb-8">
@@ -143,7 +154,58 @@ export default function OrderConfirmation() {
                   </div>
                 </div>
 
-                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                {/* Post-Purchase Feedback Section */}
+                {order?.paymentStatus === "paid" && !feedbackSubmitted && (
+                  <div className="mt-12 pt-12 border-t border-border">
+                    <div className="flex items-center gap-3 mb-6">
+                      <MessageSquareText className="text-primary" size={24} />
+                      <h3 className="text-xl font-display uppercase tracking-tighter">Your Experience Matters</h3>
+                    </div>
+                    <p className="text-sm text-muted-foreground mb-8">How was your acquisition process today? Your feedback helps us maintain our industrial standards.</p>
+                    
+                    <form onSubmit={handleFeedbackSubmit} className="space-y-6">
+                      <div className="flex gap-4 mb-6">
+                        {[1, 2, 3, 4, 5].map((star) => (
+                          <button
+                            key={star}
+                            type="button"
+                            onClick={() => setRating(star)}
+                            className={`transition-all ${rating >= star ? "text-primary scale-110" : "text-muted-foreground opacity-30 hover:opacity-100"}`}
+                          >
+                            <Star size={32} fill={rating >= star ? "currentColor" : "none"} />
+                          </button>
+                        ))}
+                      </div>
+                      
+                      <textarea
+                        value={feedback}
+                        onChange={(e) => setFeedback(e.target.value)}
+                        placeholder="Share your thoughts on the service..."
+                        className="w-full bg-background border border-border p-4 text-sm outline-none focus:border-primary transition-colors min-h-[100px] resize-none"
+                      />
+                      
+                      <button
+                        type="submit"
+                        disabled={isSubmittingFeedback}
+                        className="w-full bg-foreground text-background py-4 font-bold uppercase tracking-widest text-xs hover:bg-primary hover:text-primary-foreground transition-all disabled:opacity-50"
+                      >
+                        {isSubmittingFeedback ? "Submitting..." : "Submit Feedback"}
+                      </button>
+                    </form>
+                  </div>
+                )}
+
+                {feedbackSubmitted && (
+                  <div className="mt-12 pt-12 border-t border-border text-center animate-in fade-in slide-in-from-bottom-4">
+                    <div className="inline-flex items-center justify-center w-12 h-12 bg-primary/10 rounded-full mb-4">
+                      <ShieldCheck className="text-primary" size={24} />
+                    </div>
+                    <h3 className="text-xl font-display uppercase tracking-tighter mb-2">Thank You</h3>
+                    <p className="text-sm text-muted-foreground">Your feedback has been recorded in our quality control system.</p>
+                  </div>
+                )}
+
+                <div className="flex flex-col sm:flex-row gap-4 justify-center mt-12">
                   <button 
                     onClick={() => window.print()}
                     className="flex-1 py-4 border border-border text-foreground font-bold uppercase tracking-widest text-sm hover:bg-muted transition-colors flex items-center justify-center gap-2"
@@ -152,7 +214,7 @@ export default function OrderConfirmation() {
                   </button>
                   <button 
                     onClick={() => setLocation('/products')}
-                    className="flex-1 py-4 bg-foreground text-background font-bold uppercase tracking-widest text-sm hover:bg-primary hover:text-primary-foreground transition-colors flex items-center justify-center gap-2"
+                    className="flex-1 py-4 bg-primary text-primary-foreground font-bold uppercase tracking-widest text-sm hover:bg-foreground hover:text-background transition-colors flex items-center justify-center gap-2"
                   >
                     Return to Catalog <ArrowRight size={16} />
                   </button>

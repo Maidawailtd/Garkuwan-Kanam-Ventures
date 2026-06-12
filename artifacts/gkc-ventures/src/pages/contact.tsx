@@ -45,8 +45,8 @@ export default function Contact() {
                     <div>
                       <h4 className="font-bold uppercase tracking-widest text-xs mb-2">Call Us</h4>
                       <p className="text-muted-foreground text-sm leading-relaxed">
-                        Sales: +234 800 GARKUWAN<br/>
-                        Support: +234 801 000 0000
+                        Sales: 08039891568<br/>
+                        WhatsApp: 08039891568
                       </p>
                     </div>
                   </div>
@@ -58,8 +58,8 @@ export default function Contact() {
                     <div>
                       <h4 className="font-bold uppercase tracking-widest text-xs mb-2">Email</h4>
                       <p className="text-muted-foreground text-sm leading-relaxed">
-                        General: info@garkuwan.com.ng<br/>
-                        Sales: sales@garkuwan.com.ng
+                        General: mglink@mail.com<br/>
+                        Sales: mglink@mail.com
                       </p>
                     </div>
                   </div>
@@ -83,9 +83,14 @@ export default function Contact() {
                 <MessageSquare className="mb-6" size={32} />
                 <h4 className="text-xl font-display uppercase mb-4">Urgent Inquiry?</h4>
                 <p className="text-sm opacity-80 mb-6">Our procurement specialists are available for immediate consultation on large-scale fleet acquisitions.</p>
-                <button className="text-xs font-bold uppercase tracking-widest border-b-2 border-primary-foreground pb-1 hover:opacity-70 transition-opacity">
+                <a 
+                  href="https://wa.me/2348039891568" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-xs font-bold uppercase tracking-widest border-b-2 border-primary-foreground pb-1 hover:opacity-70 transition-opacity"
+                >
                   Chat with Sales
-                </button>
+                </a>
               </div>
             </div>
 
