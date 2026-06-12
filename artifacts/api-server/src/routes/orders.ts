@@ -9,6 +9,8 @@ import {
   VerifyPaymentBody,
 } from "@workspace/api-zod";
 import { logger } from "../lib/logger";
+import { strictRateLimit, standardRateLimit } from "../middleware/rateLimit";
+import { validateProductStock, sanitize } from "../middleware/validation";
 
 const router: IRouter = Router();
 
@@ -69,30 +71,24 @@ async function initFlutterwavePayment(params: {
   }
 }
 
-router.post("/orders", async (req, res): Promise<void> => {
+router.post("/orders", strictRateLimit, async (req, res): Promise<void> => {
   const parsed = CreateOrderBody.safeParse(req.body);
   if (!parsed.success) {
-    res.status(400).json({ error: parsed.error.message });
+    res.status(400).json({ error: "Validation failed", issues: parsed.error.issues });
     return;
   }
 
   const { productId, quantity, customerName, customerEmail, customerPhone, shippingAddress, notes } =
     parsed.data;
 
-  const [product] = await db
-    .select()
-    .from(productsTable)
-    .where(eq(productsTable.id, productId));
-
-  if (!product) {
-    res.status(400).json({ error: "Product not found" });
+  // Validate stock
+  const stockCheck = await validateProductStock(db, productsTable, productId, quantity);
+  if (!stockCheck.valid) {
+    res.status(400).json({ error: stockCheck.error });
     return;
   }
 
-  if (!product.inStock) {
-    res.status(400).json({ error: "Product is out of stock" });
-    return;
-  }
+  const product = stockCheck.product;
 
   const totalAmountNgn = product.priceNgn * quantity;
 
@@ -143,11 +139,11 @@ router.post("/orders", async (req, res): Promise<void> => {
   });
 });
 
-router.get("/orders/:id", async (req, res): Promise<void> => {
+router.get("/orders/:id", standardRateLimit, async (req, res): Promise<void> => {
   const raw = Array.isArray(req.params.id) ? req.params.id[0] : req.params.id;
   const params = GetOrderParams.safeParse({ id: parseInt(raw, 10) });
   if (!params.success) {
-    res.status(400).json({ error: params.error.message });
+    res.status(400).json({ error: "Invalid order ID", issues: params.error.issues });
     return;
   }
 
@@ -164,17 +160,17 @@ router.get("/orders/:id", async (req, res): Promise<void> => {
   res.json(GetOrderResponse.parse(order));
 });
 
-router.post("/orders/:id/verify", async (req, res): Promise<void> => {
+router.post("/orders/:id/verify", strictRateLimit, async (req, res): Promise<void> => {
   const rawId = Array.isArray(req.params.id) ? req.params.id[0] : req.params.id;
   const params = VerifyPaymentParams.safeParse({ id: parseInt(rawId, 10) });
   if (!params.success) {
-    res.status(400).json({ error: params.error.message });
+    res.status(400).json({ error: "Invalid order ID", issues: params.error.issues });
     return;
   }
 
   const body = VerifyPaymentBody.safeParse(req.body);
   if (!body.success) {
-    res.status(400).json({ error: body.error.message });
+    res.status(400).json({ error: "Validation failed", issues: body.error.issues });
     return;
   }
 
