@@ -9,7 +9,15 @@ import ProductDetail from "@/pages/products/product-detail";
 import Checkout from "@/pages/checkout/index";
 import OrderConfirmation from "@/pages/checkout/confirmation";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 0,
+      gcTime: 0,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 function Router() {
   return (

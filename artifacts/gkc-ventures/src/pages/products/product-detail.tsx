@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useRoute, useLocation } from "wouter";
 import { useGetProduct, getGetProductQueryKey } from "@workspace/api-client-react";
 import { Layout } from "@/components/layout";
@@ -11,6 +12,7 @@ export default function ProductDetail() {
   const [, params] = useRoute("/products/:id");
   const productId = params?.id ? parseInt(params.id, 10) : 0;
   const [, setLocation] = useLocation();
+  const [imgError, setImgError] = useState(false);
 
   const { data: product, isLoading, isError } = useGetProduct(productId, {
     query: {
@@ -79,11 +81,12 @@ export default function ProductDetail() {
           {/* Image Gallery Column */}
           <div className="lg:col-span-7">
             <div className="aspect-[4/3] bg-secondary flex items-center justify-center border border-border relative">
-              {product.imageUrl ? (
-                <img 
-                  src={product.imageUrl} 
+              {product.imageUrl && !imgError ? (
+                <img
+                  src={product.imageUrl}
                   alt={product.name}
                   className="w-full h-full object-cover"
+                  onError={() => setImgError(true)}
                 />
               ) : (
                 <div className="text-muted-foreground transform scale-150">

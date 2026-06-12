@@ -1,0 +1,1 @@
+- [Bad Unsplash photo IDs](unsplash-bad-ids.md) — several IDs show solar panels/credit cards instead of industrial equipment; confirmed-good IDs listed.

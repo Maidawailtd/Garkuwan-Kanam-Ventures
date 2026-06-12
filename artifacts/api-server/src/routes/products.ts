@@ -1,5 +1,5 @@
-import { Router, type IRouter } from "express";
-import { eq, inArray } from "drizzle-orm";
+import { Router, type IRouter, type Request, type Response, type NextFunction } from "express";
+import { eq } from "drizzle-orm";
 import { db, productsTable } from "@workspace/db";
 import {
   ListProductsQueryParams,
@@ -10,6 +10,13 @@ import {
 } from "@workspace/api-zod";
 
 const router: IRouter = Router();
+
+function noCache(_req: Request, res: Response, next: NextFunction) {
+  res.set("Cache-Control", "no-store");
+  next();
+}
+
+router.use(noCache);
 
 router.get("/products/featured", async (_req, res): Promise<void> => {
   const products = await db

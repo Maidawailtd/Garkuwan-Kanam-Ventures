@@ -110,7 +110,12 @@ export default function Home() {
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <Link href="/products?category=trucks" className="group block relative aspect-[4/3] bg-muted overflow-hidden border border-border">
-              <div className="absolute inset-0 bg-secondary/80 mix-blend-multiply z-10 transition-opacity group-hover:opacity-50" />
+              <img
+                src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80"
+                alt="Heavy Trucks"
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-black/60 group-hover:bg-black/40 transition-colors duration-300 z-10" />
               <div className="absolute inset-0 flex flex-col justify-end p-8 z-20">
                 <h3 className="text-3xl font-display text-white uppercase tracking-tighter mb-2">Trucks</h3>
                 <div className="flex items-center text-primary font-bold uppercase tracking-wider text-sm">
@@ -119,7 +124,12 @@ export default function Home() {
               </div>
             </Link>
             <Link href="/products?category=mining-trucks" className="group block relative aspect-[4/3] bg-muted overflow-hidden border border-border">
-              <div className="absolute inset-0 bg-secondary/80 mix-blend-multiply z-10 transition-opacity group-hover:opacity-50" />
+              <img
+                src="https://images.unsplash.com/photo-1590496793929-36417d3117de?w=800&q=80"
+                alt="Mining Trucks"
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-black/60 group-hover:bg-black/40 transition-colors duration-300 z-10" />
               <div className="absolute inset-0 flex flex-col justify-end p-8 z-20">
                 <h3 className="text-3xl font-display text-white uppercase tracking-tighter mb-2">Mining</h3>
                 <div className="flex items-center text-primary font-bold uppercase tracking-wider text-sm">
@@ -128,7 +138,12 @@ export default function Home() {
               </div>
             </Link>
             <Link href="/products?category=drilling-motors" className="group block relative aspect-[4/3] bg-muted overflow-hidden border border-border">
-              <div className="absolute inset-0 bg-secondary/80 mix-blend-multiply z-10 transition-opacity group-hover:opacity-50" />
+              <img
+                src="https://images.unsplash.com/photo-1560472355-536de3962603?w=800&q=80"
+                alt="Drilling Motors"
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-black/60 group-hover:bg-black/40 transition-colors duration-300 z-10" />
               <div className="absolute inset-0 flex flex-col justify-end p-8 z-20">
                 <h3 className="text-3xl font-display text-white uppercase tracking-tighter mb-2">Drilling</h3>
                 <div className="flex items-center text-primary font-bold uppercase tracking-wider text-sm">

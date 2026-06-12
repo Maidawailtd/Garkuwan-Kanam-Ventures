@@ -6,6 +6,9 @@ import { logger } from "./lib/logger";
 
 const app: Express = express();
 
+// Disable ETags so DB changes are always reflected without 304 stale responses
+app.set("etag", false);
+
 app.use(
   pinoHttp({
     logger,

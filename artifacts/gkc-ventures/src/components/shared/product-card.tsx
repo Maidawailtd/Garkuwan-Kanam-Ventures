@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link } from "wouter";
 import { Product } from "@workspace/api-client-react/src/generated/api.schemas";
 import { FormatPrice } from "./format-price";
@@ -15,15 +16,18 @@ export function getCategoryIcon(category: string) {
 }
 
 export function ProductCard({ product }: { product: Product }) {
+  const [imgError, setImgError] = useState(false);
+
   return (
     <Link href={`/products/${product.id}`} className="group block h-full">
       <Card className="overflow-hidden h-full flex flex-col border-border rounded-none bg-card hover:border-primary transition-colors duration-300">
         <div className="aspect-[4/3] bg-muted relative flex items-center justify-center overflow-hidden">
-          {product.imageUrl ? (
-            <img 
-              src={product.imageUrl} 
+          {product.imageUrl && !imgError ? (
+            <img
+              src={product.imageUrl}
               alt={product.name}
               className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+              onError={() => setImgError(true)}
             />
           ) : (
             getCategoryIcon(product.category)
@@ -47,7 +51,7 @@ export function ProductCard({ product }: { product: Product }) {
         <CardContent className="p-6 flex-grow">
           <div className="text-xs font-bold text-primary mb-2 uppercase tracking-widest">{product.brand} {product.model}</div>
           <h3 className="font-display text-xl leading-tight mb-4 text-foreground group-hover:text-primary transition-colors">{product.name}</h3>
-          
+
           <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm text-muted-foreground border-t border-border pt-4">
             <div className="flex flex-col">
               <span className="text-xs uppercase tracking-wider opacity-70">Year</span>
@@ -55,7 +59,7 @@ export function ProductCard({ product }: { product: Product }) {
             </div>
             <div className="flex flex-col">
               <span className="text-xs uppercase tracking-wider opacity-70">Category</span>
-              <span className="font-medium text-foreground">{product.category.replace("-", " ")}</span>
+              <span className="font-medium text-foreground">{product.category.replace(/-/g, " ")}</span>
             </div>
           </div>
         </CardContent>

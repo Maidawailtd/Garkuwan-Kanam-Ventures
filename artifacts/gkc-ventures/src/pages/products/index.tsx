@@ -1,13 +1,13 @@
-import { useState } from "wouter/use-browser-location"; // not using this directly, using useLocation and URLSearchParams
-import { useLocation } from "wouter";
+import { useLocation, useSearch } from "wouter";
 import { useListProducts, ListProductsCategory } from "@workspace/api-client-react";
 import { Layout } from "@/components/layout";
 import { ProductCard } from "@/components/shared/product-card";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export default function Products() {
-  const [location, setLocation] = useLocation();
-  const searchParams = new URLSearchParams(window.location.search);
+  const [, setLocation] = useLocation();
+  const search = useSearch();
+  const searchParams = new URLSearchParams(search);
   const categoryParam = searchParams.get("category") as ListProductsCategory | undefined;
 
   // Validate category param

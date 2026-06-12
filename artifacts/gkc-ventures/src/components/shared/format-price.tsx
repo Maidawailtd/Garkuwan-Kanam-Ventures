@@ -1,5 +1,3 @@
-import { Link } from "wouter";
-
 export function FormatPrice({ ngn, usd, className }: { ngn: number; usd?: number; className?: string }) {
   return (
     <div className={`flex flex-col ${className || ""}`}>
