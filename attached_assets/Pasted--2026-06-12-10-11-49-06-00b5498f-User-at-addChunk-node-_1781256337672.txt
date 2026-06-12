@@ -1,0 +1,161 @@
+
+2026-06-12 10:11:49.06
+00b5498f
+User
+at addChunk (node:internal/streams/readable:559:12)
+
+2026-06-12 10:11:55.93
+00b5498f
+System
+healthcheck failed error=healthcheck /api returned status 500
+
+2026-06-12 10:11:55.93
+00b5498f
+System
+healthcheck failed error=healthcheck /api returned status 500
+
+2026-06-12 10:11:55.95
+00b5498f
+System
+healthcheck failed error=healthcheck /api returned status 500
+
+2026-06-12 10:11:55.96
+00b5498f
+System
+healthcheck failed error=healthcheck /api returned status 500
+
+2026-06-12 10:11:56.03
+00b5498f
+System
+healthcheck failed error=healthcheck /api returned status 500
+
+2026-06-12 10:11:56.04
+00b5498f
+System
+healthcheck failed error=healthcheck /api returned status 500
+
+2026-06-12 10:11:56.21
+00b5498f
+System
+healthcheck failed error=healthcheck /api returned status 500
+
+2026-06-12 10:15:53.88
+00b5498f
+User
+- If you want the current behavior, explicitly use 'sslmode=verify-full'
+
+2026-06-12 10:15:53.88
+00b5498f
+User
+- If you want libpq compatibility now, use 'uselibpqcompat=true&sslmode=require'
+
+2026-06-12 10:15:53.88
+00b5498f
+User
+In the next major version (pg-connection-string v3.0.0 and pg v9.0.0), these modes will adopt standard libpq semantics, which have weaker security guarantees.
+
+2026-06-12 10:15:53.88
+00b5498f
+User
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+2026-06-12 10:15:53.88
+00b5498f
+User
+See https://www.postgresql.org/docs/current/libpq-ssl.html for libpq SSL mode definitions.
+
+2026-06-12 10:15:53.88
+00b5498f
+User
+To prepare for this change:
+
+2026-06-12 10:15:53.88
+00b5498f
+User
+(node:19) Warning: SECURITY WARNING: The SSL modes 'prefer', 'require', and 'verify-ca' are treated as aliases for 'verify-full'.
+
+2026-06-12 10:16:47.41
+2565e1db
+System
+healthcheck failed error=healthcheck /api: Get "http://127.0.0.1:1104/api": dial tcp 127.0.0.1:1104: connect: connection refused
+
+2026-06-12 10:16:47.42
+2565e1db
+System
+healthcheck failed error=healthcheck /api returned status 500
+
+2026-06-12 10:16:47.44
+2565e1db
+System
+healthcheck failed error=healthcheck /api returned status 500
+
+2026-06-12 10:16:47.44
+2565e1db
+System
+healthcheck failed error=healthcheck /api returned status 500
+
+2026-06-12 10:16:47.51
+2565e1db
+System
+healthcheck failed error=healthcheck /api returned status 500
+
+2026-06-12 10:16:47.55
+2565e1db
+System
+healthcheck failed error=healthcheck /api returned status 500
+
+2026-06-12 10:16:47.63
+2565e1db
+System
+healthcheck failed error=healthcheck /api returned status 500
+
+2026-06-12 10:16:48.20
+2565e1db
+System
+healthcheck failed error=healthcheck /api returned status 500
+
+2026-06-12 10:16:48.81
+2565e1db
+System
+healthcheck failed error=healthcheck /api returned status 500
+
+2026-06-12 10:16:54.88
+00b5498f
+System
+artifact process exited with error error=signal: terminated artifact=artifacts/api-server
+
+
+2026-06-12 10:16:59.85
+2565e1db
+User
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+2026-06-12 10:16:59.85
+2565e1db
+User
+- If you want libpq compatibility now, use 'uselibpqcompat=true&sslmode=require'
+
+2026-06-12 10:16:59.85
+2565e1db
+User
+(node:18) Warning: SECURITY WARNING: The SSL modes 'prefer', 'require', and 'verify-ca' are treated as aliases for 'verify-full'.
+
+2026-06-12 10:16:59.85
+2565e1db
+User
+In the next major version (pg-connection-string v3.0.0 and pg v9.0.0), these modes will adopt standard libpq semantics, which have weaker security guarantees.
+
+2026-06-12 10:16:59.85
+2565e1db
+User
+- If you want the current behavior, explicitly use 'sslmode=verify-full'
+
+2026-06-12 10:16:59.85
+2565e1db
+User
+See https://www.postgresql.org/docs/current/libpq-ssl.html for libpq SSL mode definitions.
+
+2026-06-12 10:16:59.85
+2565e1db
+User
+To prepare for this change:
