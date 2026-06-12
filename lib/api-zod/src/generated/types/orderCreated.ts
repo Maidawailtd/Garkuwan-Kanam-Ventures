@@ -6,6 +6,10 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export interface HealthStatus {
-  status: string;
+export interface OrderCreated {
+  orderId: number;
+  /** Flutterwave hosted payment URL */
+  paymentLink: string;
+  txRef: string;
+  totalAmountNgn: number;
 }

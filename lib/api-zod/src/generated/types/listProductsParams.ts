@@ -5,7 +5,8 @@
  * API specification for Garkuwan Kanam & Co Ventures
  * OpenAPI spec version: 0.1.0
  */
+import type { ListProductsCategory } from './listProductsCategory';
 
-export interface HealthStatus {
-  status: string;
-}
+export type ListProductsParams = {
+category?: ListProductsCategory;
+};

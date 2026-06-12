@@ -1,0 +1,62 @@
+uploads = []
+outputs = []
+
+[[generated]]
+id = "Z82jVfM71zizFdPEG8fYf"
+uri = "file://attached_assets/generated_images/mercedes_benz_actros_heavy_4ec0.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "IFE1aAPxHUrGGc0s4BAWN"
+uri = "file://attached_assets/generated_images/professional_photo_of_a_e57a.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "uFtdMac58uYbhPlJDIIvQ"
+uri = "file://attached_assets/generated_images/faw_heavy_cargo_transport_7f63.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "J6af0kTjpurZ2tD0nrv-h"
+uri = "file://attached_assets/generated_images/caterpillar_785d_giant_mining_212d.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "cqLiysGijdFP713j42LXL"
+uri = "file://attached_assets/generated_images/caterpillar_777g_off_highway_19c6.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "wnNvyP-VQ-9C4WSC7lcw6"
+uri = "file://attached_assets/generated_images/iveco_trakker_tipper_dump_d6a3.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "Mb5Mq2tZZKiE-11T0FVwo"
+uri = "file://attached_assets/generated_images/caterpillar_773g_haul_truck_c6b7.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "GhlhJUrrOkRPpk7MUWER8"
+uri = "file://attached_assets/generated_images/downhole_mud_motor_drilling_4cf9.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "b-qoz48kxkF_6IvP5AS2v"
+uri = "file://attached_assets/generated_images/caterpillar_d8t_crawler_dozer_e8d7.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "SI7vSwY2VrG_u-LGtriH7"
+uri = "file://attached_assets/generated_images/progressive_cavity_downhole_drilling_9a04.png"
+type = "image"
+title = "generated_image"
