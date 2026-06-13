@@ -25,9 +25,9 @@ async function initFlutterwavePayment(params: {
   productName: string;
   redirectUrl: string;
 }): Promise<string | null> {
-  const secretKey = process.env.FLUTTERWAVE_SECRET_KEY;
+  const secretKey = process.env.FLUTTERWAVE_SECRET_KEY || process.env["Secret-Key"];
   if (!secretKey) {
-    logger.warn("FLUTTERWAVE_SECRET_KEY not set — payment link unavailable");
+    logger.warn("Flutterwave secret key not set — payment link unavailable");
     return null;
   }
 
@@ -188,7 +188,7 @@ router.post("/orders/:id/verify", async (req, res): Promise<void> => {
     return;
   }
 
-  const secretKey = process.env.FLUTTERWAVE_SECRET_KEY;
+  const secretKey = process.env.FLUTTERWAVE_SECRET_KEY || process.env["Secret-Key"];
   if (!secretKey) {
     res.status(400).json({ error: "Payment verification unavailable — API key not configured" });
     return;
